@@ -1,0 +1,64 @@
+body{
+  background-color: white;
+  background-image: url('https://rare-gallery.com/resol/1920x1080/351193-4k-wallpaper.jpg');
+  display: flex;
+  justify-content: center;
+
+}
+.flex-container{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  width: 90vw;
+  height: 90vh;
+  flex-direction: row;
+}
+@media(max-width: 900px) {
+  .flex-container{
+    flex-direction: column;
+  }
+}
+.flex-item {
+  background-color: rgba(0, 0, 0, 0.6); 
+  height: 100%;
+  width: 100%;
+  border-radius: 3%;
+  display: flex;
+  justify-content: center;
+}
+.search{
+  margin-top: 35px;
+  background-color: white;
+  border: none;
+  opacity: 0.6;
+  border-radius: 7px;
+  width: 50vh;
+  height: 7vh;
+  color: black;
+  font-size: 25px;
+}
+.search-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  border-radius: 7px;
+  height: 7vh;
+  margin-top: 35px;
+  padding: 7px;
+}
+form{
+  position: relative;
+  display: flex;
+}
+@media(max-width: 600px) {
+  .search {
+    width: 30vh;
+    font-size: 3vw; 
+  }
+  .search-btn{
+    font-size: 12px;
+  }
+}
+
