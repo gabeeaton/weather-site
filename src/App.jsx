@@ -1,31 +1,33 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { api_key } from "./api";
 
-const api_key = "71847e2b068a8b60b15e51f4df8db223"
 
 function App() {
   const [search, setSearch] = useState("");
+  const [data, setData] = useState(null);
 
-    const submitForm = async(e) => {
+    const submitForm = async (e) => {
       e.preventDefault();
       try {
         const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${api_key}`;
-
         const response = await axios.get(API_URL);
-        const data = response.data;
-        console.log(data);
+          setData(response.data);
       } catch (err) {
         console.error(err.message);
       }
     }
 
-  
+    useEffect(() => {
+      if(data) {
+        setData(data);
+      }
+    }, [data]);
   return (
     <>
       <div className="flex-container">
         <div className="flex-item">
-          <div className = "input-container">
           <form onSubmit= {submitForm}>
             <input
               className="search"
@@ -34,9 +36,8 @@ function App() {
             />
             <button className="search-btn" type="submit">Search</button>
           </form>
-          </div>
+          <h1>{data.main.hints}</h1>
         </div>
-        <div className="flex-item"></div>
       </div>
     </>
   );
