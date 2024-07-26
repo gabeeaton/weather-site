@@ -130,10 +130,17 @@ form {
     gap: 5px;
   }
 }
+@media(max-height: 550px){
+  .search {
+ 
+    font-size: 700%;
+  }
+}
 @media (max-height: 700px) {
   .search {
     width: 100%;
     height: 5vh;
+    font-size: 100%;
   }
   .search-btn {
     font-size: 12px;
@@ -171,14 +178,14 @@ form {
     height: 100%;
   }
 }
-.daily-container{
+.daily-container, .three-hr-container{
   display: flex;
   justify-content: center;
   flex-direction: row;
   gap: 10px;
   height: 100%;
 }
-.day{
+.day, .hour{
   background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 75%;
@@ -186,4 +193,6 @@ form {
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-top: 10px;
 }
+

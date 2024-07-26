@@ -20,7 +20,7 @@ function App() {
       const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${search}&appid=${api_key}`;
       const forecastResponse = await axios.get(forecastURL);
       setForecast(forecastResponse.data);
-     
+
       console.log(forecastResponse.data);
       console.log(response.data);
     } catch (err) {
@@ -125,21 +125,105 @@ function App() {
               </div>
             </div>
             <div className="week">
-              <div className = "three-hr">
-                 <h3>3 Hourly Forecast</h3>
-                 <div className = "three-hr-container">
-                  
-                 </div>
+              <div className="three-hr">
+                <h3>Three Hour Forecast</h3>
+                <div className="three-hr-container">
+                  <div className="hour"></div>
+                  <div className="hour"></div>
+                  <div className="hour"></div>
+                  <div className="hour"></div>
+                  <div className="hour"></div>
+                </div>
               </div>
-              <div className = "daily">
-                  <h3>Daily Forecast</h3>
-                  <div className = "daily-container">
-                    <div className = "day">Mon</div>
-                    <div className = "day">hi</div>
-                    <div className = "day">hi</div>
-                    <div className = "day">hi</div>
-                    <div className = "day">hi</div>
+              <div className="daily">
+                <h3>Daily Forecast</h3>
+                <div className="daily-container">
+                  <div className="day">
+                    <p>Mon</p>
+                    <p>
+                      {forecast ? (
+                        <span>{forecast.list[3].dt_txt.split(" ")[0]}</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                    <p>
+                      {forecast ? (
+                        <span>{convertTemp(forecast.list[3].main.temp)}°</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
                   </div>
+                  <div className="day">
+                    <p>Tues</p>
+                    <p>
+                      {forecast ? (
+                        <span>{forecast.list[11].dt_txt.split(" ")[0]}</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                    <p>
+                      {forecast ? (
+                        <span>{convertTemp(forecast.list[11].main.temp)}°</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                  </div>
+                  <div className="day">
+                    <p>Wed</p>
+                    <p>
+                      {forecast ? (
+                        <span>{forecast.list[19].dt_txt.split(" ")[0]}</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                    <p>
+                      {forecast ? (
+                        <span>{convertTemp(forecast.list[19].main.temp)}°</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                  </div>
+                  <div className="day">
+                    <p>Thurs</p>
+                    <p>
+                      {forecast ? (
+                        <span>{forecast.list[27].dt_txt.split(" ")[0]}</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                    <p>
+                      {forecast ? (
+                        <span>{convertTemp(forecast.list[27].main.temp)}°</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                  </div>
+                  <div className="day">
+                    <p>Fri</p>
+                    <p>
+                      {forecast ? (
+                        <span>{forecast.list[35].dt_txt.split(" ")[0]}</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                    <p>
+                      {forecast ? (
+                        <span>{convertTemp(forecast.list[35].main.temp)}°</span>
+                      ) : (
+                        infoError
+                      )}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
