@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { api_key } from "./api";
 
 function App() {
-  const [search, setSearch] = useState(""); //city
+  const [search, setSearch] = useState(""); // city
   const [state, setState] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -14,282 +14,243 @@ function App() {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${api_key}`;
+      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},${"USA"}&appid=${api_key}`;
       const response = await axios.get(API_URL);
       setData(response.data);
+      console.log(response.data);
 
-      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${search}&appid=${api_key}`;
+      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${search},${state},${"USA"}&appid=${api_key}`;
       const forecastResponse = await axios.get(forecastURL);
       setForecast(forecastResponse.data);
-
       console.log(forecastResponse.data);
-      console.log(response.data);
     } catch (err) {
       console.error(err.message);
       setData(null);
-      setError("City Not Found");
+      setError("*City Not Found*");
       setInfoError("");
     }
   };
+
   const convertTemp = (kelvin) => {
     return (((kelvin - 273.15) * 9) / 5 + 32).toFixed(0);
   };
+
+  const getNextDays = (n) => {
+    const days = [];
+    const today = new Date();
+    for (let i = 0; i < n; i++) {
+      const nextDate = new Date(today);
+      nextDate.setDate(today.getDate() + i + 1);
+      days.push(nextDate.toLocaleDateString("en-US", { weekday: "short" }));
+    }
+    return days;
+  };
+
+  const nextFiveDays = getNextDays(5);
+
   return (
-    <>
-      <div className="flex-container">
-        <div className="flex-item">
-          <form onSubmit={submitForm}>
-            <select
-              className="state-drop"
-              onChange={(e) => setState(e.target.value)}
-              placeholder="Select a state"
-            >
-              <option value={null}>Select a state...</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District Of Columbia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
-            <input
-              className="search"
-              type="search"
-              placeholder="Enter a city..."
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button className="search-btn" type="submit">
-              Search
-            </button>
-          </form>
-          <div className="temp-container">
-            <h1 className="main-temp">
-              {data ? <span>{convertTemp(data.main.temp)}°</span> : error}
-            </h1>
+    <div className="flex-container">
+      <div className="flex-item">
+        <form onSubmit={submitForm}>
+          <select
+            className="state-drop"
+            onChange={(e) => setState(e.target.value)}
+            value={state}
+          >
+            <option value="">State</option>
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MT">MT</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT">UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+          </select>
+          <input
+            className="search"
+            type="search"
+            placeholder="City"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="search-btn" type="submit">
+            Search
+          </button>
+        </form>
+        <div className="temp-container">
+          <h1 className="main-temp">
+            {data ? <span>{convertTemp(data.main.temp)}°</span> : error}
+          </h1>
+        </div>
+        <div className="info-container">
+          <div className="info">
+            <div className="info-item">
+              <h6 className="temp-text">Temperature</h6>
+              <h5 className="temp-text">
+                H:{" "}
+                {data ? (
+                  <span>{convertTemp(data.main.temp_max)}° </span>
+                ) : (
+                  infoError
+                )}
+              </h5>
+              <h5 className="temp-text">
+                L:{" "}
+                {data ? (
+                  <span>{convertTemp(data.main.temp_min)}° </span>
+                ) : (
+                  infoError
+                )}
+              </h5>
+              <h5 className="temp-text">
+                Feels Like:{" "}
+                {data ? (
+                  <span>{convertTemp(data.main.feels_like)}°</span>
+                ) : (
+                  infoError
+                )}
+              </h5>
+            </div>
+            <div className="info-item">
+              <h6 className="temp-text">Humidity</h6>
+              <h5 className="temp-text">
+                {data ? <span>{data.main.humidity}%</span> : infoError}
+              </h5>
+            </div>
+            <div className="info-item">
+              <h6 className="temp-text">Weather</h6>
+              <h5 className="temp-text">
+                {data ? (
+                  <span>
+                    {data.weather[0].main}: {data.weather[0].description}
+                  </span>
+                ) : (
+                  infoError
+                )}
+              </h5>
+            </div>
+            <div className="info-item">
+              <h6 className="temp-text">Wind</h6>
+              <h5 className="temp-text">
+                Speed:{" "}
+                {data ? (
+                  <span>{(data.wind.speed * 2.23694).toFixed(1)} mph</span>
+                ) : (
+                  infoError
+                )}
+              </h5>
+              <h5 className="temp-text">
+                Degrees: {data ? <span>{data.wind.deg}°</span> : infoError}
+              </h5>
+            </div>
           </div>
-          <div className="info-container">
-            <div className="info">
-              <div className="info-item">
-                <h6 className="temp-text">Temperature</h6>
-                <h5 className="temp-text">
-                  H:{" "}
-                  {data ? (
-                    <span>{convertTemp(data.main.temp_max)}° </span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
-                <h5 className="temp-text">
-                  L:{" "}
-                  {data ? (
-                    <span>{convertTemp(data.main.temp_min)}° </span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
-                <h5 className="temp-text">
-                  Feels Like:{" "}
-                  {data ? (
-                    <span>{convertTemp(data.main.feels_like)}°</span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
-              </div>
-              <div className="info-item">
-                <h6 className="temp-text">Humidity</h6>
-                <h5 className="temp-text">
-                  {" "}
-                  {data ? <span>{data.main.humidity}%</span> : infoError}
-                </h5>
-              </div>
-              <div className="info-item">
-                {" "}
-                <h6 className="temp-text">Weather</h6>
-                <h5 className="temp-text">
-                  {data ? (
-                    <span>
-                      {data.weather[0].main}: {data.weather[0].description}
-                    </span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
-              </div>
-              <div className="info-item">
-                <h6 className="temp-text">Wind</h6>
-                <h5 className="temp-text">
-                  Speed:{" "}
-                  {data ? (
-                    <span>{(data.wind.speed * 2.23694).toFixed(1)} mph</span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
-                <h5 className="temp-text">
-                  Degrees: {data ? <span>{data.wind.deg}°</span> : infoError}
-                </h5>
-                <h5 className="temp-text">
-                  Gust:{" "}
-                  {data ? (
-                    <span>{(data.wind.gust * 2.23694).toFixed(1)} mph</span>
-                  ) : (
-                    infoError
-                  )}
-                </h5>
+          <div className="week">
+            <div className="three-hr">
+              <h3>Three Hour Forecast</h3>
+              <div className="three-hr-container">
+                {forecast &&
+                  forecast.list.slice(0, 4).map((entry, index) => (
+                    <div className="hour" key={index}>
+                      <p>
+                        {new Date(entry.dt * 1000).toLocaleTimeString("en-US", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <p>{convertTemp(entry.main.temp)}°</p>
+                      <p>{entry.weather[0].description}</p>
+                      {entry.weather[0].description === "clear sky" ? (
+                        <div class="sun">
+                        <div class="center"></div>
+                        <div class="ray r-1"></div>
+                        <div class="ray r-2"></div>
+                        <div class="ray r-3"></div>
+                        <div class="ray r-4"></div>
+                        <div class="ray r-5"></div>
+                        <div class="ray r-6"></div>
+                        <div class="ray r-7"></div>
+                        <div class="ray r-8"></div>
+                      </div>
+                      ) : null}
+                    </div>
+                  ))}
               </div>
             </div>
-            <div className="week">
-              <div className="three-hr">
-                <h3>Three Hour Forecast</h3>
-                <div className="three-hr-container">
-                  <div className="hour"></div>
-                  <div className="hour"></div>
-                  <div className="hour"></div>
-                  <div className="hour"></div>
-                  <div className="hour"></div>
-                </div>
-              </div>
-              <div className="daily">
-                <h3>Daily Forecast</h3>
-                <div className="daily-container">
-                  <div className="day">
-                    <p>Mon</p>
-                    <p>
-                      {forecast ? (
-                        <span>{forecast.list[3].dt_txt.split(" ")[0]}</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                    <p>
-                      {forecast ? (
-                        <span>{convertTemp(forecast.list[3].main.temp)}°</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                  </div>
-                  <div className="day">
-                    <p>Tues</p>
-                    <p>
-                      {forecast ? (
-                        <span>{forecast.list[11].dt_txt.split(" ")[0]}</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                    <p>
-                      {forecast ? (
-                        <span>{convertTemp(forecast.list[11].main.temp)}°</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                  </div>
-                  <div className="day">
-                    <p>Wed</p>
-                    <p>
-                      {forecast ? (
-                        <span>{forecast.list[19].dt_txt.split(" ")[0]}</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                    <p>
-                      {forecast ? (
-                        <span>{convertTemp(forecast.list[19].main.temp)}°</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                  </div>
-                  <div className="day">
-                    <p>Thurs</p>
-                    <p>
-                      {forecast ? (
-                        <span>{forecast.list[27].dt_txt.split(" ")[0]}</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                    <p>
-                      {forecast ? (
-                        <span>{convertTemp(forecast.list[27].main.temp)}°</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                  </div>
-                  <div className="day">
-                    <p>Fri</p>
-                    <p>
-                      {forecast ? (
-                        <span>{forecast.list[35].dt_txt.split(" ")[0]}</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                    <p>
-                      {forecast ? (
-                        <span>{convertTemp(forecast.list[35].main.temp)}°</span>
-                      ) : (
-                        infoError
-                      )}
-                    </p>
-                  </div>
-                </div>
+            <div className="daily">
+              <h3>Daily Forecast</h3>
+              <div className="daily-container">
+                {forecast &&
+                  nextFiveDays.map((day, index) => (
+                    <div className="day" key={index}>
+                      <p>{day}</p>
+                      <p>
+                        {forecast ? (
+                          <span>
+                            {forecast.list[index * 8].dt_txt.split(" ")[0]}
+                          </span>
+                        ) : (
+                          infoError
+                        )}
+                      </p>
+                      <p>
+                        {forecast ? (
+                          <span>
+                            {convertTemp(forecast.list[index * 8].main.temp)}°
+                          </span>
+                        ) : (
+                          infoError
+                        )}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
