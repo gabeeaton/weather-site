@@ -2,13 +2,27 @@ body {
   background: rgb(63, 198, 231);
   background: linear-gradient(
     90deg,
-    rgba(63, 198, 231, 1) 12%,
-    rgba(63, 163, 231, 1) 29%,
+    rgb(0, 204, 255) 12%,
+    rgb(63, 223, 231) 29%,
     rgba(63, 182, 205, 1) 55%,
-    rgba(33, 145, 209, 1) 90%
+    rgb(73, 222, 248) 90%
   );
   display: flex;
   justify-content: center;
+} 
+h3 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+h3:after {
+  content: attr(data-text);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: rgba(0, 0, 0, 0.2);
+  transform: scaleY(-1);
+  opacity: 0.5;
+  filter: blur(2px);
+  white-space: nowrap;
 }
 .flex-container {
   display: flex;
@@ -18,7 +32,6 @@ body {
   height: 97vh;
 }
 .flex-item {
-  background-color: rgba(0, 0, 0, 0.4);
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -38,6 +51,7 @@ body {
   font-size: 20px;
   box-sizing: border-box;
   position: relative;
+  z-index: 2;
 }
 .state-drop {
   margin-top: 35px;
@@ -46,8 +60,12 @@ body {
   opacity: 0.6;
   color: black;
   border-radius: 7px;
-  width: 20%;
-  min-width: 45px;
+  width: 10%;
+  min-width: 55px;
+  z-index: 2;
+}
+.title {
+  margin-bottom: 25px;
 }
 .search-btn {
   position: absolute;
@@ -59,6 +77,7 @@ body {
   height: 7vh;
   margin-top: 35px;
   padding: 7px;
+  z-index: 2;
 }
 form {
   position: relative;
@@ -71,25 +90,32 @@ form {
   font-size: 70px;
   margin-top: 10px;
   min-height: 90px;
+  z-index: 2;
 }
 * {
-  font-family: sans-serif;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+}
+.hour-card{
+  z-index: 25;
 }
 .temp-container {
   display: flex;
   justify-content: center;
+  padding-bottom: 0px;
 }
 .info-item {
   background-color: black;
   width: 90%;
   height: 90%;
   border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   margin: 0;
-  padding: 15px;
+  padding: 20px;
   display: flex;
   align-items: left;
   flex-direction: column;
+  z-index: 2;
 }
 .info-item > h6 {
   margin-bottom: 10px;
@@ -103,7 +129,13 @@ form {
   height: 50%;
   width: 100%;
   color: white;
+  z-index: 1;
 }
+
+.weather-icon {
+  margin-top: 20px;
+}
+
 @media (max-width: 1100px) {
   .temp-text {
     font-size: 85%;
@@ -127,6 +159,7 @@ form {
     font-size: 40px;
     min-height: 60px;
   }
+
   .info-container {
     display: flex;
     flex-direction: column;
@@ -182,6 +215,9 @@ form {
     justify-items: center;
     gap: 5px;
   }
+  .weather-icon {
+    margin-top: 3px;
+  }
 }
 @media (min-width: 741px) {
   .info {
@@ -202,6 +238,7 @@ form {
     width: 100%;
     height: 100%;
   }
+  
 }
 .daily-container,
 .three-hr-container {
@@ -210,10 +247,11 @@ form {
   flex-direction: row;
   gap: 10px;
   height: 100%;
+  z-index: 2;
 }
 .day,
 .hour {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 75%;
   border-radius: 15px;
@@ -223,81 +261,56 @@ form {
   padding-top: 10px;
 }
 
-.sun {
-  position: relative;
-  animation: rotate 4s linear infinite;
-  --color: yellow;
-  --scale: 0.2;
-}
-
 .center {
-  height: calc(var(--scale) * 10em);
-  width: calc(var(--scale) * 10em);
-  background-color: var(--color);
-  border-radius: 50%;
-  box-shadow: 0 0 calc(var(--scale) * 3em) var(--color);
+  display: flex;
+  justify-content: center;
 }
 
-.ray {
-  position: absolute;
-  height: calc(var(--scale) * 3em);
-  width: calc(var(--scale) * 0.5em);
-  box-shadow: 0 0 calc(var(--scale) * 1em) var(--color);
-  background-color: var(--color);
-}
-
-.r-1 {
-  margin-left: calc(var(--scale) * 4.75em);
-  margin-top: calc(var(--scale) * 1em);
-}
-
-.r-2 {
-  margin-left: calc(var(--scale) * 12.25em);
-  margin-top: calc(var(--scale) * -6.25em);
-  transform: rotate(90deg);
-}
-
-.r-3 {
-  margin-left: calc(var(--scale) * 4.75em);
-  margin-top: calc(var(--scale) * -14em);
-}
-
-.r-4 {
-  margin-left: calc(var(--scale) * -2.75em);
-  margin-top: calc(var(--scale) * -6.25em);
-  transform: rotate(90deg);
-}
-
-.r-5 {
-  margin-left: calc(var(--scale) * -0.5em);
-  margin-top: calc(var(--scale) * -1em);
-  transform: rotate(45deg);
-}
-
-.r-6 {
-  margin-left: calc(var(--scale) * 9.75em);
-  margin-top: calc(var(--scale) * -1em);
-  transform: rotate(-45deg);
-}
-
-.r-7 {
-  margin-left: calc(var(--scale) * 10.25em);
-  margin-top: calc(var(--scale) * -11.75em);
-  transform: rotate(45deg);
-}
-
-.r-8 {
-  margin-left: calc(var(--scale) * -0.5em);
-  margin-top: calc(var(--scale) * -11.75em);
-  transform: rotate(-45deg);
+.weather-icon.rotate {
+  animation: rotate 5s linear infinite;
 }
 
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    background: rgba(255, 255, 255, 1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.flash {
+  animation: flash 0.2s infinite;
+}
+.weather-icon.bounce {
+  animation: bounce 2s infinite;
+}
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
 }

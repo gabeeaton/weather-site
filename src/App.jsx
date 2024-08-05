@@ -46,6 +46,7 @@ function App() {
     return days;
   };
 
+  
   const nextFiveDays = getNextDays(5);
 
   return (
@@ -127,40 +128,75 @@ function App() {
         <div className="info-container">
           <div className="info">
             <div className="info-item">
-              <h6 className="temp-text">Temperature</h6>
+              <div className="center">
+                <h6 className="temp-text title">Temperature</h6>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="white"
+                  className="bi bi-thermometer-half"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
+                  <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
+                </svg>
+              </div>
               <h5 className="temp-text">
-                H:{" "}
                 {data ? (
-                  <span>{convertTemp(data.main.temp_max)}° </span>
+                  <span>H: {convertTemp(data.main.temp_max)}° </span>
                 ) : (
                   infoError
                 )}
               </h5>
               <h5 className="temp-text">
-                L:{" "}
                 {data ? (
-                  <span>{convertTemp(data.main.temp_min)}° </span>
+                  <span>L: {convertTemp(data.main.temp_min)}° </span>
                 ) : (
                   infoError
                 )}
               </h5>
               <h5 className="temp-text">
-                Feels Like:{" "}
                 {data ? (
-                  <span>{convertTemp(data.main.feels_like)}°</span>
+                  <span>Feels Like: {convertTemp(data.main.feels_like)}°</span>
                 ) : (
                   infoError
                 )}
               </h5>
             </div>
             <div className="info-item">
-              <h6 className="temp-text">Humidity</h6>
+              <div className="center">
+                <h6 className="temp-text title">Humidity</h6>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="#6495ED"
+                  className="bi bi-droplet-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6M6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13" />
+                </svg>
+              </div>
               <h5 className="temp-text">
                 {data ? <span>{data.main.humidity}%</span> : infoError}
               </h5>
             </div>
             <div className="info-item">
-              <h6 className="temp-text">Weather</h6>
+              <div className="center">
+                <h6 className="temp-text title">Weather</h6>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="green"
+                  className="bi bi-tropical-storm"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 9.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                  <path d="M9.5 2c-.9 0-1.75.216-2.501.6A5 5 0 0 1 13 7.5a6.5 6.5 0 1 1-13 0 .5.5 0 0 1 1 0 5.5 5.5 0 0 0 8.001 4.9A5 5 0 0 1 3 7.5a6.5 6.5 0 0 1 13 0 .5.5 0 0 1-1 0A5.5 5.5 0 0 0 9.5 2M8 3.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8" />
+                </svg>
+              </div>
               <h5 className="temp-text">
                 {data ? (
                   <span>
@@ -172,23 +208,37 @@ function App() {
               </h5>
             </div>
             <div className="info-item">
-              <h6 className="temp-text">Wind</h6>
+              <div className="center">
+                <h6 className="temp-text title">Wind</h6>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="#00FFFF"
+                  className="bi bi-wind"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
+                </svg>
+              </div>
               <h5 className="temp-text">
-                Speed:{" "}
                 {data ? (
-                  <span>{(data.wind.speed * 2.23694).toFixed(1)} mph</span>
+                  <span>
+                    Speed: {(data.wind.speed * 2.23694).toFixed(1)} mph
+                  </span>
                 ) : (
                   infoError
                 )}
               </h5>
               <h5 className="temp-text">
-                Degrees: {data ? <span>{data.wind.deg}°</span> : infoError}
+                {data ? <span>Degrees: {data.wind.deg}°</span> : infoError}
               </h5>
             </div>
           </div>
           <div className="week">
             <div className="three-hr">
               <h3>Three Hour Forecast</h3>
+
               <div className="three-hr-container">
                 {forecast &&
                   forecast.list.slice(0, 4).map((entry, index) => (
@@ -200,19 +250,91 @@ function App() {
                         })}
                       </p>
                       <p>{convertTemp(entry.main.temp)}°</p>
-                      <p>{entry.weather[0].description}</p>
-                      {entry.weather[0].description === "clear sky" ? (
-                        <div class="sun">
-                        <div class="center"></div>
-                        <div class="ray r-1"></div>
-                        <div class="ray r-2"></div>
-                        <div class="ray r-3"></div>
-                        <div class="ray r-4"></div>
-                        <div class="ray r-5"></div>
-                        <div class="ray r-6"></div>
-                        <div class="ray r-7"></div>
-                        <div class="ray r-8"></div>
-                      </div>
+                      {entry.weather[0].description == "clear sky" ? (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="27"
+                            height="27"
+                            fill="yellow"
+                            className="bi bi-brightness-high-fill weather-icon"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                          </svg>
+                          {/* { <video
+                            autoPlay
+                            muted
+                            loop
+                            className="background-video"
+                          >
+                            <source
+                              src="../src/assets/854002-hd_1920_1080_24fps.mp4"
+                              type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                          </video>} */}
+                        </>
+                      ) : entry.weather[0].description.includes("clouds") ? (
+                        <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="27"
+                          height="27"
+                          fill="currentColor"
+                          className="bi bi-cloud-fill weather-icon"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383" />
+                        </svg>
+                        {/* {<video
+                        autoPlay
+                        muted
+                        loop
+                        className="background-video"
+                      >
+                        <source
+                          src="../src/assets/854002-hd_1920_1080_24fps.mp4"
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                      </video> } */}
+                      </>
+                      ) : entry.weather[0].description.includes("rain") ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="27"
+                          height="27"
+                          fill="currentColor"
+                          className="bi bi-cloud-rain weather-icon"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317m.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2" />
+                        </svg>
+                      ) : entry.weather[0].description.includes(
+                          "thunderstorm"
+                        ) ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="27"
+                          height="27"
+                          fill="currentColor"
+                          className="bi bi-cloud-lightning weather-icon"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M13.405 4.027a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 10H13a3 3 0 0 0 .405-5.973M8.5 1a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 1M7.053 11.276A.5.5 0 0 1 7.5 11h1a.5.5 0 0 1 .474.658l-.28.842H9.5a.5.5 0 0 1 .39.812l-2 2.5a.5.5 0 0 1-.875-.433L7.36 14H6.5a.5.5 0 0 1-.447-.724z" />
+                        </svg>
+                      ) : entry.weather[0].description.includes("snow") ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="27"
+                          height="27"
+                          fill="currentColor"
+                          className="bi bi-cloud-snow weather-icon"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M13.405 4.277a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 10.25H13a3 3 0 0 0 .405-5.973M8.5 1.25a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1-.001 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 1.25M2.625 11.5a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m2.75 2a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m5.5 0a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m-2.75-2a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m5.5 0a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25" />
+                        </svg>
                       ) : null}
                     </div>
                   ))}
