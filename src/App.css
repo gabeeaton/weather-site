@@ -1,22 +1,19 @@
-body, html {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(
-    90deg,
-    rgb(0, 204, 255) 12%,
-    rgb(63, 223, 231) 29%,
-    rgba(63, 182, 205, 1) 55%,
-    rgb(73, 222, 248) 90%
-  );  
-  display: flex;
-  justify-content: center;
-} 
+
 h3 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .grid-item{
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.2); 
+  background: rgba(255, 255, 255, 0.058); 
   border-radius: 10px; 
   padding: 20px; 
   backdrop-filter: blur(10px); 
@@ -34,6 +31,7 @@ h3 {
 }
 .item1{
   justify-content: center;
+  padding: 0px;
 }
 .grid-container{
   width: 100vw;
@@ -88,13 +86,16 @@ h3:after {
 .item3{
   grid-column: 3 / 5;
 }
+.item6{
+  grid-column: 2 / 4 ;
+}
 .search {
   margin-top: 10px;
   background-color: white;
   border: none;
   opacity: 0.6;
   border-radius: 7px;
-  width: 80%;
+  width: 50%;
   height: 25px;
   color: black;
   font-size: 15px;
@@ -171,7 +172,7 @@ body {
   opacity: 0.6;
   color: black;
   border-radius: 7px;
-  width: 10%;
+  width: 7%;
   min-width: 55px;
   font-size: 15px;
   z-index: 2;
@@ -181,7 +182,7 @@ body {
 .search-btn {
   position: absolute;
   top: 0;
-  right: 0;
+  right: 16vw;
   border: none;
   display: flex;
   align-items: center;
@@ -230,7 +231,10 @@ form {
   justify-content: center;
   align-items: center;
   height: 20vh;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
 }
+
 .info-item {
   background-color: black;
   width: 90%;
@@ -266,6 +270,18 @@ form {
   }
 }
 @media (max-width: 740px) {
+  body, html {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+      90deg,
+      rgb(0, 204, 255) 12%,
+      rgb(63, 223, 231) 29%,
+      rgba(63, 182, 205, 1) 55%,
+      rgb(73, 222, 248) 90%
+    );  
+    display: flex;
+    justify-content: center;
+  } 
   .state-drop {
     font-size: 80%;
   }
@@ -306,7 +322,6 @@ form {
 
 @media (max-height: 700px) {
   .search {
-    width: 100%;
     height: 70%;
     font-size: 100%;
   }
@@ -327,6 +342,18 @@ form {
 
 }
 @media (min-width: 741px) {
+  body, html {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+      90deg,
+      rgb(0, 204, 255) 12%,
+      rgb(63, 223, 231) 29%,
+      rgba(63, 182, 205, 1) 55%,
+      rgb(73, 222, 248) 90%
+    );  
+    display: flex;
+    justify-content: center;
+  } 
   .info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -4,15 +4,23 @@ import "./App.css";
 import { api_key } from "./api";
 
 function App() {
-  const [search, setSearch] = useState(""); // city
-  const [state, setState] = useState("");
+  const [search, setSearch] = useState(null); // city
+  const [state, setState] = useState(null);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [infoError, setInfoError] = useState("");
   const [forecast, setForecast] = useState("");
 
+
+
   const submitForm = async (e) => {
     e.preventDefault();
+    if (!search || !state) {
+      setError("*Please enter both a city and state*");
+      setData(null); 
+      setForecast(null);
+      return;
+    }
     try {
       const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},${"USA"}&appid=${api_key}`;
       const response = await axios.get(API_URL);
@@ -57,7 +65,7 @@ function App() {
             onChange={(e) => setState(e.target.value)}
             value={state}
           >
-            <option value="">Select</option>
+            <option value={null}>State</option>
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AZ">AZ</option>
@@ -121,7 +129,7 @@ function App() {
         </form>
         <div className="temp-container">
           <div className="name">
-            <h3>{data ? <span>{data.name}</span> : error}</h3>
+            <h3>{data ? <span>{data.name}</span> : null}</h3>
           </div>
           <h1 className="main-temp">
             {data ? <span>{convertTemp(data.main.temp)}° F</span> : error}
@@ -137,7 +145,7 @@ function App() {
                     .join(" ")}
                 </span>
               ) : (
-                error
+                null
               )}
             </h5>
           </div>
@@ -399,7 +407,6 @@ function App() {
           <div className="grid-item item6"></div>
           <div className="grid-item item7"></div>
           <div className="grid-item item8"></div>
-          <div className="grid-item item9"></div>
         </div>
       </div>
     </div>
