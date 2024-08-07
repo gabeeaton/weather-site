@@ -1,11 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
 import "./App.css";
-import { api_key } from "./api";
-import { LineGraph } from "./line-graph";
+// import { LineGraph } from "./line-graph";
+import { fetchWeatherData, fetchForecastData } from "./fetchAPI"; 
+
+const convertTemp = (kelvin) => {
+  return (((kelvin - 273.15) * 9) / 5 + 32).toFixed(0);
+};
 
 function App() {
-  const [search, setSearch] = useState(""); // city
+  const [search, setSearch] = useState(""); 
   const [state, setState] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -21,25 +24,22 @@ function App() {
       return;
     }
     try {
-      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},${"US"}&appid=${api_key}`;
-      const response = await axios.get(API_URL);
-      setData(response.data);
-      console.log(response.data);
+      const response = await fetchWeatherData(search, state);
+      setData(response);
+      console.log(response);
 
-      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${search},${state},${"USA"}&appid=${api_key}`;
-      const forecastResponse = await axios.get(forecastURL);
-      setForecast(forecastResponse.data);
-      console.log(forecastResponse.data);
+      const forecastResponse = await fetchForecastData(search, state);
+      setForecast(forecastResponse);
+      console.log(forecastResponse);
+
+      const graphData = lineGraphData(forecastResponse);
+      console.log("data: " + graphData);
     } catch (err) {
       console.error(err.message);
       setData(null);
       setError("*City Not Found*");
       setInfoError("");
     }
-  };
-
-  const convertTemp = (kelvin) => {
-    return (((kelvin - 273.15) * 9) / 5 + 32).toFixed(0);
   };
 
   const getNextDays = (n) => {
@@ -343,7 +343,7 @@ function App() {
             </div>
           </div>
           <div className="grid-item item3">
-                <LineGraph />
+                {/* <LineGraph /> */}
           </div>
           <div className="grid-item item4">
             <div className="pressure-section">
@@ -420,10 +420,10 @@ function App() {
   );
 }
 
-export const lineGraphData = async (forecast) => {
-  if (forecast) {
+export const lineGraphData = (forecastResponse) => {
+  if (forecastResponse && Array.isArray(forecastResponse.list)) {
     return {
-      labels: forecast.list.slice(0, 4).map((entry) =>
+      labels: forecastResponse.list.slice(0, 4).map((entry) =>
         new Date(entry.dt * 1000).toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
@@ -431,13 +431,14 @@ export const lineGraphData = async (forecast) => {
       ),
       datasets: [
         {
-          data: forecast.list
+          data: forecastResponse.list
             .slice(0, 4)
             .map((entry) => convertTemp(entry.main.temp)),
         },
       ],
     };
   };
+  return {}; 
 }
 
 export default App;
