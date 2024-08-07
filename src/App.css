@@ -13,17 +13,15 @@ h3 {
 }
 .grid-item{
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.058); 
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 10px; 
   padding: 20px; 
   backdrop-filter: blur(10px); 
   -webkit-backdrop-filter: blur(10px); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  border: 1px solid rgba(255, 255, 255, 0.6);
   color: white;
   display: flex;
   flex-direction: column;
-  
 }
 .title{
   display: flex;
@@ -89,6 +87,14 @@ h3:after {
 .item6{
   grid-column: 2 / 4 ;
 }
+.red{
+  background-color: red;
+}
+.wind, .temp-section, .pressure-section{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
 .search {
   margin-top: 10px;
   background-color: white;
@@ -101,7 +107,6 @@ h3:after {
   font-size: 15px;
   box-sizing: border-box;
   position: relative;
-  z-index: 2;
 }
 body {
   margin: 0;
@@ -112,7 +117,6 @@ body {
   height: 100vh;
   background: #0d0c2d;
 }
-
 .container {
   display: grid;
   grid-template-columns: repeat(1, 160px);
@@ -191,8 +195,7 @@ body {
   height: 25px;
   margin-top: 10px;
   padding: 7px;
-  font-size: 15px;
-  z-index: 2;
+  font-size: 12px;
 }
 div > .main-temp{
   margin-bottom: 0px;
@@ -207,7 +210,6 @@ form {
 .main-temp {
   color: white;
   font-size: 30px;
-  z-index: 2;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .desc-main{
@@ -217,9 +219,6 @@ form {
 * {
   position: relative;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.hour-card{
-  z-index: 25;
 }
 .main-desc{
   color: white;
@@ -246,7 +245,6 @@ form {
   display: flex;
   align-items: left;
   flex-direction: column;
-  z-index: 2;
 }
 .info-item > h6 {
   margin-bottom: 10px;
@@ -254,15 +252,6 @@ form {
 .temp-text {
   color: white;
 }
-
-.daily,
-.three-hr {
-  height: 50%;
-  width: 100%;
-  color: white;
-  z-index: 1;
-}
-
 
 @media (max-width: 1100px) {
   .temp-text {
@@ -274,9 +263,9 @@ form {
     background: rgb(0, 0, 0);
     background: linear-gradient(
       90deg,
-      rgb(0, 204, 255) 12%,
+      rgb(9, 243, 255) 12%,
       rgb(63, 223, 231) 29%,
-      rgba(63, 182, 205, 1) 55%,
+      rgb(28, 206, 242) 55%,
       rgb(73, 222, 248) 90%
     );  
     display: flex;
@@ -285,11 +274,6 @@ form {
   .state-drop {
     font-size: 80%;
   }
-  .main-temp {
-    color: white;
-    font-size: 40px;
-  }
-
   .info-container {
     display: flex;
     flex-direction: column;
@@ -327,10 +311,6 @@ form {
   }
   .search-btn {
     font-size: 12px;
-  }
-  .main-temp{
-    color: white;
-    font-size: 40px;
   }
   .info {
     display: grid;
@@ -374,32 +354,6 @@ form {
   }
   
 }
-.daily-container,
-.three-hr-container {
-  z-index: 2;
-}
-.three-hr-container{
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  gap: 10px;
-}
-.daily-container{
-  height: 60%;
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-/* .day,
-.hour {
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 75%;
-  padding-top: 10px;
-} */
 .hour{
   display: flex;
   align-items: center;
@@ -415,52 +369,6 @@ form {
   padding-right: 20px;
   padding-bottom: 0px;
 }
-
-.center {
-  display: flex;
-  justify-content: center;
-}
-
-.weather-icon.rotate {
-  animation: rotate 5s linear infinite;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(5px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-@keyframes flash {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-    background: rgba(255, 255, 255, 1);
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.flash {
-  animation: flash 0.2s infinite;
-}
-.weather-icon.bounce {
-  animation: bounce 2s infinite;
-}
 .background-video {
   position: fixed;
   top: 0;
@@ -469,3 +377,7 @@ form {
   height: 100vh;
   object-fit: cover;
 }
+.title{
+  margin-left: 5px;
+}
+

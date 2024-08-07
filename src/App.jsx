@@ -2,27 +2,26 @@ import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { api_key } from "./api";
+import { LineGraph } from "./line-graph";
 
 function App() {
-  const [search, setSearch] = useState(null); // city
-  const [state, setState] = useState(null);
+  const [search, setSearch] = useState(""); // city
+  const [state, setState] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [infoError, setInfoError] = useState("");
   const [forecast, setForecast] = useState("");
 
-
-
   const submitForm = async (e) => {
     e.preventDefault();
     if (!search || !state) {
       setError("*Please enter both a city and state*");
-      setData(null); 
+      setData(null);
       setForecast(null);
       return;
     }
     try {
-      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},${"USA"}&appid=${api_key}`;
+      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},${"US"}&appid=${api_key}`;
       const response = await axios.get(API_URL);
       setData(response.data);
       console.log(response.data);
@@ -65,7 +64,7 @@ function App() {
             onChange={(e) => setState(e.target.value)}
             value={state}
           >
-            <option value={null}>State</option>
+            <option value="">State</option>
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AZ">AZ</option>
@@ -144,29 +143,14 @@ function App() {
                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(" ")}
                 </span>
-              ) : (
-                null
-              )}
+              ) : null}
             </h5>
           </div>
         </div>
         {/* <div className="info-container">
           <div className="info">
             <div className="info-item">
-              <div className="center">
-                <h6 className="temp-text title">Temperature</h6>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="white"
-                  className="bi bi-thermometer-half"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
-                  <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
-                </svg>
-              </div>
+             
               <h5 className="temp-text">
                 {data ? (
                   <span>H: {convertTemp(data.main.temp_max)}° </span>
@@ -191,50 +175,7 @@ function App() {
             </div>
             <div className="info-item">
               <div className="center">
-                
-              </div>
-              <h5 className="temp-text">
-                {data ? <span>{data.main.humidity}%</span> : infoError}
-              </h5>
-            </div>
-            <div className="info-item">
-              <div className="center">
-                <h6 className="temp-text title">Weather</h6>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="green"
-                  className="bi bi-tropical-storm"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 9.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                  <path d="M9.5 2c-.9 0-1.75.216-2.501.6A5 5 0 0 1 13 7.5a6.5 6.5 0 1 1-13 0 .5.5 0 0 1 1 0 5.5 5.5 0 0 0 8.001 4.9A5 5 0 0 1 3 7.5a6.5 6.5 0 0 1 13 0 .5.5 0 0 1-1 0A5.5 5.5 0 0 0 9.5 2M8 3.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8" />
-                </svg>
-              </div>
-              <h5 className="temp-text">
-                {data ? (
-                  <span>
-                    {data.weather[0].main}: {data.weather[0].description}
-                  </span>
-                ) : (
-                  infoError
-                )}
-              </h5>
-            </div>
-            <div className="info-item">
-              <div className="center">
-                <h6 className="temp-text title">Wind</h6>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="#00FFFF"
-                  className="bi bi-wind"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
-                </svg>
+              
               </div>
               <h5 className="temp-text">
                 {data ? (
@@ -319,7 +260,7 @@ function App() {
                         >
                           <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383" />
                         </svg>
-                        {/* Uncomment and adjust as needed */}
+
                         {/* <video
                   autoPlay
                   muted
@@ -401,16 +342,102 @@ function App() {
               <h6 className="temp-text title">Humidity</h6>
             </div>
           </div>
-          <div className="grid-item item3"></div>
-          <div className="grid-item item4"></div>
-          <div className="grid-item item5"></div>
+          <div className="grid-item item3">
+                <LineGraph />
+          </div>
+          <div className="grid-item item4">
+            <div className="pressure-section">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25 "
+                fill="#90EE90"
+                className="bi bi-speedometer"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
+                <path
+                  fillRule="evenodd"
+                  d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"
+                />
+              </svg>
+              <h6 className="temp-text title">Pressure</h6>
+            </div>
+          </div>
+          <div className="grid-item item5">
+            {" "}
+            <div className="temp-section">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="red"
+                className="bi bi-thermometer-half"
+                viewBox="0 0 16 16"
+              >
+                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
+                <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
+              </svg>
+              <h6 className="temp-text title">Temperature</h6>
+            </div>
+          </div>
           <div className="grid-item item6"></div>
-          <div className="grid-item item7"></div>
-          <div className="grid-item item8"></div>
+          <div className="grid-item item7">
+            {" "}
+            <div className="wind">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="#00FFFF"
+                className="bi bi-wind"
+                viewBox="0 0 16 16"
+              >
+                <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
+              </svg>
+              <h6 className="temp-text title wind-title">Wind</h6>
+            </div>
+          </div>
+          <div className="grid-item item8">
+            <div className="temp-section">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="orange"
+                className="bi bi-eye"
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+              </svg>
+              <h6 className="temp-text title">Visibility</h6>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
+}
+
+export const lineGraphData = async (forecast) => {
+  if (forecast) {
+    return {
+      labels: forecast.list.slice(0, 4).map((entry) =>
+        new Date(entry.dt * 1000).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      ),
+      datasets: [
+        {
+          data: forecast.list
+            .slice(0, 4)
+            .map((entry) => convertTemp(entry.main.temp)),
+        },
+      ],
+    };
+  };
 }
 
 export default App;
