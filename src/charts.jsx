@@ -11,8 +11,8 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend,
   ArcElement,
+  Legend
 } from "chart.js/auto";
 
 ChartJS.register(
@@ -95,12 +95,26 @@ export function LineGraph({ forecastData }) {
   }
 }
 
-export const DoughnutGauge = ({ humidity }) => {
-  if (!humidity) {
+
+export function DoughnutGauge({ humidity }) {
+  if (!humidity || !humidity.main || humidity.main.length === 0) {
     return null;
   }
+  
   if (humidity !== null) {
-    const options = {};
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        datalabels: {
+          display: false,
+        },
+      cutout: '60%',
+
+  }
+};
     const data = DoughnutData(humidity);
     return <Doughnut options={options} data={data} />;
   }
