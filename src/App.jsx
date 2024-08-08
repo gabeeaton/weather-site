@@ -1,14 +1,15 @@
 import { useState } from "react";
 import "./App.css";
-// import { LineGraph } from "./line-graph";
-import { fetchWeatherData, fetchForecastData } from "./fetchAPI"; 
+import "chart.js/auto";
+import { LineGraph, DoughnutGauge } from "./charts";
+import { fetchWeatherData, fetchForecastData } from "./fetchAPI";
 
 const convertTemp = (kelvin) => {
   return (((kelvin - 273.15) * 9) / 5 + 32).toFixed(0);
 };
 
 function App() {
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
   const [state, setState] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -26,14 +27,9 @@ function App() {
     try {
       const response = await fetchWeatherData(search, state);
       setData(response);
-      console.log(response);
 
       const forecastResponse = await fetchForecastData(search, state);
       setForecast(forecastResponse);
-      console.log(forecastResponse);
-
-      const graphData = lineGraphData(forecastResponse);
-      console.log("data: " + graphData);
     } catch (err) {
       console.error(err.message);
       setData(null);
@@ -341,9 +337,15 @@ function App() {
               </svg>
               <h6 className="temp-text title">Humidity</h6>
             </div>
+            <div className="humid-value">
+              {data ? <span>{data.main.humidity}%</span> : infoError}
+              <DoughnutGauge />
+            </div>
           </div>
           <div className="grid-item item3">
-                {/* <LineGraph /> */}
+            <div className="graph">
+              <LineGraph forecastData={forecast} />
+            </div>
           </div>
           <div className="grid-item item4">
             <div className="pressure-section">
@@ -421,24 +423,48 @@ function App() {
 }
 
 export const lineGraphData = (forecastResponse) => {
-  if (forecastResponse && Array.isArray(forecastResponse.list)) {
+  if (forecastResponse) {
     return {
-      labels: forecastResponse.list.slice(0, 4).map((entry) =>
+      labels: forecastResponse.list.slice(0, 13).map((entry) =>
         new Date(entry.dt * 1000).toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
+          hour12: false,
         })
       ),
       datasets: [
         {
           data: forecastResponse.list
-            .slice(0, 4)
+            .slice(0, 13)
             .map((entry) => convertTemp(entry.main.temp)),
         },
       ],
     };
-  };
-  return {}; 
-}
+  }
+};
 
+// export const DoughnutData = (humidity) => {
+//   if(humidity) {
+//     return {
+//       labels: ["Humidity"],
+//       datasets: [
+//         {
+//           data: humidity,
+//         },
+//       ],
+//     };
+//   }
+// };
+export const DoughnutData = (humidity) => {
+  if(humidity) {
+    return {
+      labels: ["Humidity"],
+      datasets: [
+        {
+          data: humidity,
+        },
+      ],
+    };
+  }
+};
 export default App;

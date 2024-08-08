@@ -13,7 +13,7 @@ h3 {
 }
 .grid-item{
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 10px; 
   padding: 20px; 
   backdrop-filter: blur(10px); 
@@ -22,6 +22,9 @@ h3 {
   color: white;
   display: flex;
   flex-direction: column;
+}
+.grid-item:hover{
+  background: rgba(0, 0, 0, 0.15);
 }
 .title{
   display: flex;
@@ -68,6 +71,7 @@ h3:after {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 .flex-item {
   height: 100%;
@@ -183,6 +187,13 @@ body {
   border: none;
   height: 25px;
 }
+.humid-value{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
 .search-btn {
   position: absolute;
   top: 0;
@@ -260,14 +271,7 @@ form {
 }
 @media (max-width: 740px) {
   body, html {
-    background: rgb(0, 0, 0);
-    background: linear-gradient(
-      90deg,
-      rgb(9, 243, 255) 12%,
-      rgb(63, 223, 231) 29%,
-      rgb(28, 206, 242) 55%,
-      rgb(73, 222, 248) 90%
-    );  
+    background: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%); 
     display: flex;
     justify-content: center;
   } 
@@ -323,14 +327,7 @@ form {
 }
 @media (min-width: 741px) {
   body, html {
-    background: rgb(0, 0, 0);
-    background: linear-gradient(
-      90deg,
-      rgb(0, 204, 255) 12%,
-      rgb(63, 223, 231) 29%,
-      rgba(63, 182, 205, 1) 55%,
-      rgb(73, 222, 248) 90%
-    );  
+    background: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
     display: flex;
     justify-content: center;
   } 
@@ -380,4 +377,15 @@ form {
 .title{
   margin-left: 5px;
 }
+.graph{
+  position: relative;
+  width: 100%; 
+  height: 100%;
+  padding: 0px;
+
+}
+.item3{
+  padding: 0px;
+}
+
 
