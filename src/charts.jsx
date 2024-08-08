@@ -1,7 +1,6 @@
-import { Line } from "react-chartjs-2";
-import { lineGraphData, DoughnutData } from "./App";
+import { Line, Doughnut, Bar } from "react-chartjs-2";
+import { lineGraphData, DoughnutData, BarData } from "./App";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Doughnut } from "react-chartjs-2";
 
 import {
   Chart as ChartJS,
@@ -12,7 +11,8 @@ import {
   Title,
   Tooltip,
   ArcElement,
-  Legend
+  Legend,
+  BarElement,
 } from "chart.js/auto";
 
 ChartJS.register(
@@ -21,6 +21,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   ArcElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -48,9 +49,9 @@ export function LineGraph({ forecastData }) {
             display: false,
           },
           border: {
-            display: false, 
+            display: false,
           },
-          max: 100,
+          max: 110,
         },
       },
       plugins: {
@@ -95,12 +96,11 @@ export function LineGraph({ forecastData }) {
   }
 }
 
-
 export function DoughnutGauge({ humidity }) {
   if (!humidity || !humidity.main || humidity.main.length === 0) {
     return null;
   }
-  
+
   if (humidity !== null) {
     const options = {
       responsive: true,
@@ -111,11 +111,64 @@ export function DoughnutGauge({ humidity }) {
         datalabels: {
           display: false,
         },
-      cutout: '60%',
+      },
+      cutout: "70%",
+      elements: {
+        bar: {
+          borderColor: "white",
+          backgroundColor: "rgba(120, 120, 120, 0.5)",
+          fill: true,
+          tension: 0.3,
+        },
+    }
+  };
 
-  }
-};
     const data = DoughnutData(humidity);
     return <Doughnut options={options} data={data} />;
   }
-};
+}
+
+export function BarChart({ temps }) {
+  if (!temps || !temps.main || temps.main.length === 0) {
+    return null;
+  }
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        color: "white", // Set label color to white
+        formatter: (value) => `${value}°`, // Add degree symbol
+        font: {
+          weight: "bold",
+          size: 12,
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => `Value: ${tooltipItem.raw}`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          color: "white",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "white",
+        },
+      },
+    },
+  };
+
+  const data = BarData(temps);
+  return <Bar options={options} data={data} />;
+}

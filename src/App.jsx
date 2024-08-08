@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import "chart.js/auto";
-import { LineGraph, DoughnutGauge } from "./charts";
+import { LineGraph, DoughnutGauge, BarChart } from "./charts";
 import { fetchWeatherData, fetchForecastData } from "./fetchAPI";
 
 const convertTemp = (kelvin) => {
@@ -11,7 +11,7 @@ const convertTemp = (kelvin) => {
 function App() {
   const [search, setSearch] = useState("");
   const [state, setState] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState("");
   const [error, setError] = useState(null);
   const [infoError, setInfoError] = useState("");
   const [forecast, setForecast] = useState("");
@@ -27,6 +27,7 @@ function App() {
     try {
       const response = await fetchWeatherData(search, state);
       setData(response);
+      console.log(response);
 
       const forecastResponse = await fetchForecastData(search, state);
       setForecast(forecastResponse);
@@ -323,104 +324,110 @@ function App() {
                 </div>
               ))}
           </div>
-          <div className="grid-item item2">
-         {data ? ( 
-         <div className="title">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="#6495ED"
-                className="bi bi-droplet-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6M6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13" />
-              </svg>
-     <h6 className="temp-text title">Humidity</h6> 
-            </div>
-         ) : null }
-            <div className="humid">
-              {" "}
-              <div className="humid-value">
-                {data ? <span>{data.main.humidity}%</span> : infoError}
-                <div><DoughnutGauge humidity={data} /></div>
+          <div className="grid-item item7">
+            {" "}
+            {data ? (
+              <div className="wind">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="#00FFFF"
+                  className="bi bi-wind"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
+                </svg>
+                <h6 className="temp-text title wind-title">Wind</h6>
               </div>
-            </div>
+            ) : null}
+           {data ? <div className="wind-val">
+              <h3>{data.wind.deg}°</h3>
+              <h3>{(data.wind.speed * 2.23694).toFixed(1)} mph</h3>
+            </div>: infoError}
           </div>
           <div className="grid-item item3">
             <div className="graph">
               <LineGraph forecastData={forecast} />
             </div>
           </div>
+          <div className="grid-item item6">
+            {" "}
+            {data ? (
+              <div className="temp-section">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="red"
+                  className="bi bi-thermometer-half"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
+                  <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
+                </svg>
+                <h6 className="temp-text title bar-title">Temperature</h6>
+              </div>
+            ) : null}
+            <div className="bar-container">
+              <div className="bar">
+                <BarChart temps={data} />
+              </div>
+            </div>
+          </div>
+
+        
+          <div className="grid-item item2">
+            {data ? (
+              <div className="title">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="#6495ED"
+                  className="bi bi-droplet-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6M6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13" />
+                </svg>
+                <h6 className="temp-text title">Humidity</h6>
+              </div>
+            ) : null}
+            <div className="humid">
+              {" "}
+              <div className="humid-value">
+                {data ? <span>{data.main.humidity}%</span> : infoError}
+                <div>
+                  <DoughnutGauge humidity={data} />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="grid-item item4">
-          {data ? ( <div className="pressure-section">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25 "
-                fill="#90EE90"
-                className="bi bi-speedometer"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
-                <path
-                  fillRule="evenodd"
-                  d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"
-                />
-              </svg>
-              <h6 className="temp-text title">Pressure</h6>
-            </div> ) : null}
+            {data ? (
+              <div className="pressure-section">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25 "
+                  fill="#90EE90"
+                  className="bi bi-speedometer"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"
+                  />
+                </svg>
+                <h6 className="temp-text title">Pressure</h6>
+              </div>
+            ) : null}
+            <div className="pressure-value">
+              {data ? <h3>{data.main.pressure}mb</h3> : infoError}
+            </div>
           </div>
-          <div className="grid-item item5">
-            {" "}
-            {data ? (<div className="temp-section">
-               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="red"
-                className="bi bi-thermometer-half"
-                viewBox="0 0 16 16"
-              >
-                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
-                <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
-              </svg>
-              <h6 className="temp-text title">Temperature</h6>
-            </div>) : null}
-          </div>
-          <div className="grid-item item6"></div>
-          <div className="grid-item item7">
-            {" "}
-            {data ? (<div className="wind">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="#00FFFF"
-                className="bi bi-wind"
-                viewBox="0 0 16 16"
-              >
-                <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
-              </svg>
-              <h6 className="temp-text title wind-title">Wind</h6>
-            </div>) :null}
-          </div>
-          <div className="grid-item item8">
-          {data ? (<div className="temp-section">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="orange"
-                className="bi bi-eye"
-                viewBox="0 0 16 16"
-              >
-                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-              </svg>
-              <h6 className="temp-text title">Visibility</h6>
-            </div> ) : null}
-          </div>
+
         </div>
       </div>
     </div>
@@ -456,10 +463,32 @@ export const DoughnutData = (humidity) => {
         {
           data: [humidity.main.humidity, 100 - humidity.main.humidity],
           backgroundColor: [
-            "rgba(100, 149, 237, 0.6)",
-            "rgba(201, 203, 207, 0.6)",
+            "rgba(100, 149, 237, 0.75)",
+            "rgba(201, 203, 207, 0.75)",
           ],
-          borderWidth: 0, 
+          borderWidth: 0,
+        },
+      ],
+    };
+  }
+};
+
+export const BarData = (temp) => {
+  if (temp) {
+    return {
+      labels: ["High", "Low", "Feels Like"],
+      datasets: [
+        {
+          data: [
+            convertTemp(temp.main.temp_max),
+            convertTemp(temp.main.temp_min),
+            convertTemp(temp.main.feels_like),
+          ],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(54, 162, 235, 0.6)",
+            "rgba(159, 90, 253, 0.6)",
+          ],
         },
       ],
     };
