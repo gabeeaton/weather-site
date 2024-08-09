@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import "chart.js/auto";
 import { LineGraph, DoughnutGauge, BarChart } from "./charts";
@@ -9,16 +9,38 @@ const convertTemp = (kelvin) => {
 };
 
 function App() {
-  const [search, setSearch] = useState("");
-  const [state, setState] = useState("");
-  const [data, setData] = useState("");
-  const [error, setError] = useState(null);
-  const [infoError, setInfoError] = useState("");
-  const [forecast, setForecast] = useState("");
+  const [search, setSearch] = useState("");//city
+  const [state, setState] = useState("");//state
+  const [data, setData] = useState("");//data returned from API for current day
+  const [error, setError] = useState(null);//error
+  const [infoError, setInfoError] = useState("");//error if city is not found
+  const [forecast, setForecast] = useState("");//forecast for future
+  const [videoSrc, setVideoSrc] = useState('');//source of video
+  const [videoKey, setVideoKey] = useState(Date.now());//key to identify video
 
-  const submitForm = async (e) => {
+  useEffect(() => {//use effect to change video background depending on current weather
+    if (data) {
+      const description = data.weather[0].description.toLowerCase();
+      let newVideoSrc = '';
+      if (description.includes('clear')) {
+        newVideoSrc = '../src/assets/2605326-uhd_3840_2160_30fps.mp4';
+      } else if (description.includes('clouds')) {
+        newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
+      } else if (description.includes('rain')) {
+        newVideoSrc = '../src/assets/856186-hd_1920_1080_30fps.mp4';
+      } else if (description.includes('snow')) {
+        newVideoSrc = '../src/assets/856381-hd_1920_1080_30fps.mp4';
+      } else if (description.includes('thunderstorm')) {
+        newVideoSrc = '../src/assets/17311357-uhd_3840_2160_30fps.mp4';
+      }
+      setVideoSrc(newVideoSrc);//sets the video source from the else if
+      setVideoKey(Date.now()); // Update key to force re-render
+    }
+  }, [data]);//dependency that changes everytiem data is updated
+
+  const submitForm = async (e) => {//function to call api and submit form on submit
     e.preventDefault();
-    if (!search || !state) {
+    if (!search || !state) {//ensures both city and state parameters are entered
       setError("*Please enter both a city and state*");
       setData(null);
       setForecast(null);
@@ -27,7 +49,6 @@ function App() {
     try {
       const response = await fetchWeatherData(search, state);
       setData(response);
-      console.log(response);
 
       const forecastResponse = await fetchForecastData(search, state);
       setForecast(forecastResponse);
@@ -39,7 +60,7 @@ function App() {
     }
   };
 
-  const getNextDays = (n) => {
+  const getNextDays = (n) => {//gets days of the week for forecast
     const days = [];
     const today = new Date();
     for (let i = 0; i < n; i++) {
@@ -50,18 +71,18 @@ function App() {
     return days;
   };
 
-  const nextFiveDays = getNextDays(5);
+  const nextFiveDays = getNextDays(5);//sets number of days to get
 
   return (
     <div className="flex-container">
       <div className="flex-item">
-        <form onSubmit={submitForm}>
+        <form onSubmit={submitForm}>{/*submits form on submit*/}
           <select
             className="state-drop"
-            onChange={(e) => setState(e.target.value)}
+            onChange={(e) => setState(e.target.value)} //sets the state parameter to the current value in dropdown
             value={state}
           >
-            <option value="">State</option>
+            <option value="">State</option>{/*dropdown to select state location*/}
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AZ">AZ</option>
@@ -118,13 +139,13 @@ function App() {
             type="search"
             placeholder="City"
             onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="search-btn" type="submit">
+          />{/*search bar*/}
+          <button className="search-btn" type="submit">{/*serach button*/}
             Search
           </button>
         </form>
         <div className="temp-container">
-          <div className="name">
+          <div className="name">{/*conditionally renders temperature if data is passed*/}
             <h3>{data ? <span>{data.name}</span> : null}</h3>
           </div>
           <h1 className="main-temp">
@@ -144,79 +165,16 @@ function App() {
             </h5>
           </div>
         </div>
-        {/* <div className="info-container">
-          <div className="info">
-            <div className="info-item">
-             
-              <h5 className="temp-text">
-                {data ? (
-                  <span>H: {convertTemp(data.main.temp_max)}° </span>
-                ) : (
-                  infoError
-                )}
-              </h5>
-              <h5 className="temp-text">
-                {data ? (
-                  <span>L: {convertTemp(data.main.temp_min)}° </span>
-                ) : (
-                  infoError
-                )}
-              </h5>
-              <h5 className="temp-text">
-                {data ? (
-                  <span>Feels Like: {convertTemp(data.main.feels_like)}°</span>
-                ) : (
-                  infoError
-                )}
-              </h5>
-            </div>
-            <div className="info-item">
-              <div className="center">
-              
-              </div>
-              <h5 className="temp-text">
-                {data ? (
-                  <span>
-                    Speed: {(data.wind.speed * 2.23694).toFixed(1)} mph
-                  </span>
-                ) : (
-                  infoError
-                )}
-              </h5>
-              <h5 className="temp-text">
-                {data ? <span>Degrees: {data.wind.deg}°</span> : infoError}
-              </h5>
-            </div>
-          </div>
-          <div className="week">
-            <div className="three-hr">
-              <div className="three-hr-container">
-                {forecast &&
-                  forecast.list.slice(0, 4).map((entry, index) => (
-                    <div className="hour" key={index}>
-                      <p>
-                        {new Date(entry.dt * 1000).toLocaleTimeString("en-US", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                      <p>{convertTemp(entry.main.temp)}°</p>
-                      
-              </div>
-            </div>
-           
-          </div>
-                </div> */}
         <div className="grid-container">
-          <div className="grid-item item1">
+          <div className="grid-item item1">{/*conditionally renders 5 day forecast if data is passed*/}
             {forecast &&
-              nextFiveDays.map((day, index) => (
+              nextFiveDays.map((day, index) => (//maps the days to an array
                 <div className="day" key={index}>
                   <div className="day-info">
                     <p>{day}</p>
                   </div>
-                  <div className="temp">
-                    {forecast.list[index * 8].weather[0].description ===
+                  <div className="temp"> {/*renders the icon matching the description*/}
+                    {forecast.list[index * 8].weather[0].description === 
                     "clear sky" ? (
                       <>
                         <svg
@@ -229,19 +187,6 @@ function App() {
                         >
                           <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
                         </svg>
-                        {/* Uncomment and adjust as needed */}
-                        {/* <video
-                  autoPlay
-                  muted
-                  loop
-                  className="background-video"
-                >
-                  <source
-                    src="../src/assets/854002-hd_1920_1080_24fps.mp4"
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video> */}
                       </>
                     ) : forecast.list[
                         index * 8
@@ -257,19 +202,6 @@ function App() {
                         >
                           <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383" />
                         </svg>
-
-                        {/* <video
-                  autoPlay
-                  muted
-                  loop
-                  className="background-video"
-                >
-                  <source
-                    src="../src/assets/854002-hd_1920_1080_24fps.mp4"
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video> */}
                       </>
                     ) : forecast.list[
                         index * 8
@@ -326,7 +258,7 @@ function App() {
           </div>
           <div className="grid-item item7">
             {" "}
-            {data ? (
+            {data ? ( /*wind info*/
               <div className="wind">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -341,13 +273,17 @@ function App() {
                 <h6 className="temp-text title wind-title">Wind</h6>
               </div>
             ) : null}
-           {data ? <div className="wind-val">
-              <h3>{data.wind.deg}°</h3>
-              <h3>{(data.wind.speed * 2.23694).toFixed(1)} mph</h3>
-            </div>: infoError}
+            {data ? (
+              <div className="wind-val">
+                <h3>{data.wind.deg}°</h3>
+                <h3>{(data.wind.speed * 2.23694).toFixed(1)} mph</h3>
+              </div>
+            ) : (
+              infoError
+            )}
           </div>
           <div className="grid-item item3">
-            <div className="graph">
+            <div className="graph">{/*graph for 3 hour forecast for the next 12 hours*/}
               <LineGraph forecastData={forecast} />
             </div>
           </div>
@@ -371,12 +307,11 @@ function App() {
             ) : null}
             <div className="bar-container">
               <div className="bar">
-                <BarChart temps={data} />
+                <BarChart temps={data} />{/*Bar chart that shows high, low, and feels like*/}
               </div>
             </div>
           </div>
 
-        
           <div className="grid-item item2">
             {data ? (
               <div className="title">
@@ -398,12 +333,12 @@ function App() {
               <div className="humid-value">
                 {data ? <span>{data.main.humidity}%</span> : infoError}
                 <div>
-                  <DoughnutGauge humidity={data} />
+                  <DoughnutGauge humidity={data} />{/*doughnut that displays humidity*/}
                 </div>
               </div>
             </div>
           </div>
-          <div className="grid-item item4">
+          <div className="grid-item item4">{/*renders pressure info*/}
             {data ? (
               <div className="pressure-section">
                 <svg
@@ -424,17 +359,26 @@ function App() {
               </div>
             ) : null}
             <div className="pressure-value">
-              {data ? <h3>{data.main.pressure}mb</h3> : infoError}
+              {data ? <h3>{data.main.pressure} mb</h3> : infoError}
             </div>
           </div>
-
         </div>
+        
+        <div>
+      {videoSrc && (
+        <video key={videoKey} autoPlay muted loop className="background-video">{/*displays video*/}
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
+    </div>
       </div>
     </div>
   );
+
 }
 
-export const lineGraphData = (forecastResponse) => {
+export const lineGraphData = (forecastResponse) => {{/*passes line graph data*/}
   if (forecastResponse) {
     return {
       labels: forecastResponse.list.slice(0, 13).map((entry) =>
@@ -455,7 +399,7 @@ export const lineGraphData = (forecastResponse) => {
   }
 };
 
-export const DoughnutData = (humidity) => {
+export const DoughnutData = (humidity) => {{/*passes donut data*/}
   if (humidity) {
     return {
       labels: ["Humidity"],
@@ -473,7 +417,7 @@ export const DoughnutData = (humidity) => {
   }
 };
 
-export const BarData = (temp) => {
+export const BarData = (temp) => {{/*passes bar graph data*/}
   if (temp) {
     return {
       labels: ["High", "Low", "Feels Like"],

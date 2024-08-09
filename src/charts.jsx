@@ -28,7 +28,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-export function LineGraph({ forecastData }) {
+export function LineGraph({ forecastData }) {/*line graph chart*/
   if (!forecastData || !forecastData.list || forecastData.list.length === 0) {
     return null;
   }
@@ -96,7 +96,7 @@ export function LineGraph({ forecastData }) {
   }
 }
 
-export function DoughnutGauge({ humidity }) {
+export function DoughnutGauge({ humidity }) { /*doughnut chart*/
   if (!humidity || !humidity.main || humidity.main.length === 0) {
     return null;
   }
@@ -128,7 +128,7 @@ export function DoughnutGauge({ humidity }) {
   }
 }
 
-export function BarChart({ temps }) {
+export function BarChart({ temps }) {   /*bar chart*/
   if (!temps || !temps.main || temps.main.length === 0) {
     return null;
   }

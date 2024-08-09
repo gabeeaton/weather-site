@@ -3,7 +3,7 @@ import { api_key } from "./api";
 
 
 
-export const fetchWeatherData = async (search, state) => {
+export const fetchWeatherData = async (search, state) => {     /*fetches current weather*/
   const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${search},${state},US&appid=${api_key}`;
   try {
     const response = await axios.get(API_URL);
@@ -14,7 +14,7 @@ export const fetchWeatherData = async (search, state) => {
   }
 };
 
-export const fetchForecastData = async (search, state) => {
+export const fetchForecastData = async (search, state) => {   /*fetches forecast weather*/
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${search},${state},US&appid=${api_key}`;
   try {
     const response = await axios.get(forecastURL);
