@@ -357,7 +357,6 @@ form {
 @media (max-width: 740px) {
   body,
   html {
-    background: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
     display: flex;
     justify-content: center;
   }
@@ -413,7 +412,6 @@ form {
 @media (min-width: 741px) {
   body,
   html {
-    background: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
     display: flex;
     justify-content: center;
   }

@@ -22,8 +22,8 @@ function App() {
     if (data) {
       const description = data.weather[0].description.toLowerCase();
       let newVideoSrc = '';
-      if (description.includes('clear')) {
-        newVideoSrc = '..src/assets/854917-hd_1920_1080_30fps.mp4';
+      if (description.includes('clear') || !description || description === undefined) {
+        newVideoSrc = '../src/assets/854917-hd_1920_1080_30fps.mp4';
       } else if (description.includes('clouds')) {
         newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
       } else if (description.includes('rain')) {
@@ -36,7 +36,13 @@ function App() {
       setVideoSrc(newVideoSrc);//sets the video source from the else if
       setVideoKey(Date.now()); // Update key to force re-render
     }
-  }, [data]);//dependency that changes everytiem data is updated
+  }, [data]);//dependency that changes everytime data is updated
+
+  useEffect(() => {
+    const defaultVid = '../src/assets/854917-hd_1920_1080_30fps.mp4';
+    setVideoSrc(defaultVid);//sets the video source from the else if
+    setVideoKey(Date.now());
+  }, []);
 
   const submitForm = async (e) => {//function to call api and submit form on submit
     e.preventDefault();
