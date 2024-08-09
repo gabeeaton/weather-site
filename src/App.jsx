@@ -23,7 +23,7 @@ function App() {
       const description = data.weather[0].description.toLowerCase();
       let newVideoSrc = '';
       if (description.includes('clear')) {
-        newVideoSrc = '../src/assets/2605326-uhd_3840_2160_30fps.mp4';
+        newVideoSrc = '..src/assets/854917-hd_1920_1080_30fps.mp4';
       } else if (description.includes('clouds')) {
         newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
       } else if (description.includes('rain')) {
