@@ -25,7 +25,7 @@ function App() {
       if (description.includes('clear') || !description || description === undefined) {
         newVideoSrc = '../src/assets/854917-hd_1920_1080_30fps.mp4';
       } else if (description.includes('clouds')) {
-        newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
+        newVideoSrc = '/Users/gabeeaton/Desktop/weather-app/src/assets/854002-hd_1920_1080_24fps.mp4';
       } else if (description.includes('rain')) {
         newVideoSrc = '../src/assets/856186-hd_1920_1080_30fps.mp4';
       } else if (description.includes('snow')) {
