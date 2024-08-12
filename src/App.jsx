@@ -25,14 +25,16 @@ function App() {
       if (description.includes('clear') || !description || description === undefined) {
         newVideoSrc = '../src/assets/854917-hd_1920_1080_30fps.mp4';
       } else if (description.includes('clouds')) {
-        newVideoSrc = '/Users/gabeeaton/Desktop/weather-app/src/assets/854002-hd_1920_1080_24fps.mp4';
+        newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
       } else if (description.includes('rain')) {
         newVideoSrc = '../src/assets/856186-hd_1920_1080_30fps.mp4';
       } else if (description.includes('snow')) {
         newVideoSrc = '../src/assets/856381-hd_1920_1080_30fps.mp4';
       } else if (description.includes('thunderstorm')) {
         newVideoSrc = '../src/assets/17311357-uhd_3840_2160_30fps.mp4';
+      } else {
       }
+
       setVideoSrc(newVideoSrc);//sets the video source from the else if
       setVideoKey(Date.now()); // Update key to force re-render
     }
@@ -55,6 +57,7 @@ function App() {
     try {
       const response = await fetchWeatherData(search, state);
       setData(response);
+      console.log(response);
 
       const forecastResponse = await fetchForecastData(search, state);
       setForecast(forecastResponse);
