@@ -34,5 +34,5 @@
   "resolutions": {
     "rollup": "npm:@rollup/wasm-node"
   },
-  "homepage": "https://gabeeaton.io/weather-site"
+  "homepage": "https://github.com/gabeeaton/weather-site/"
 }
