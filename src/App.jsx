@@ -21,17 +21,17 @@ function App() {
   useEffect(() => {//use effect to change video background depending on current weather
     if (data) {
       const description = data.weather[0].description.toLowerCase();
-      let newVideoSrc = '';
+      let newVideoSrc = newVideoSrc = '../src/assets/clouds.mp4';;
       if (description.includes('clear') || !description || description === undefined) {
-        newVideoSrc = '../src/assets/854917-hd_1920_1080_30fps.mp4';
+        newVideoSrc = '../src/assets/clouds.mp4';
       } else if (description.includes('clouds')) {
-        newVideoSrc = '../src/assets/854002-hd_1920_1080_24fps.mp4';
+        newVideoSrc = '../src/assets/clouds.mp4';
       } else if (description.includes('rain')) {
-        newVideoSrc = '../src/assets/856186-hd_1920_1080_30fps.mp4';
+        newVideoSrc = '../src/assets/clouds.mp4';
       } else if (description.includes('snow')) {
-        newVideoSrc = '../src/assets/856381-hd_1920_1080_30fps.mp4';
+        newVideoSrc = '../src/assets/clouds.mp44';
       } else if (description.includes('thunderstorm')) {
-        newVideoSrc = '../src/assets/17311357-uhd_3840_2160_30fps.mp4';
+        newVideoSrc = '../src/assets/clouds.mp4';
       } else {
       }
 
