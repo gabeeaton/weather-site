@@ -21,27 +21,27 @@ function App() {
   useEffect(() => {//use effect to change video background depending on current weather
     if (data) {
       const description = data.weather[0].description.toLowerCase();
-      let newVideoSrc = newVideoSrc = '../src/assets/clouds.mp4';;
+      let newVideoSrc = '';
       if (description.includes('clear') || !description || description === undefined) {
-        newVideoSrc = '../src/assets/clouds.mp4';
+        newVideoSrc = '../src/assets/Clear.mp4';
       } else if (description.includes('clouds')) {
         newVideoSrc = '../src/assets/clouds.mp4';
       } else if (description.includes('rain')) {
-        newVideoSrc = '../src/assets/clouds.mp4';
+        newVideoSrc = '../src/assets/rain.mp4';
       } else if (description.includes('snow')) {
-        newVideoSrc = '../src/assets/clouds.mp44';
+        newVideoSrc = '../src/assets/snow.mp4';
       } else if (description.includes('thunderstorm')) {
-        newVideoSrc = '../src/assets/clouds.mp4';
+        newVideoSrc = '../src/assets/thunder.mp4';
       } else {
+        newVideoSrc = '../src/assets/Clear.mp4';
       }
-
       setVideoSrc(newVideoSrc);//sets the video source from the else if
       setVideoKey(Date.now()); // Update key to force re-render
     }
   }, [data]);//dependency that changes everytime data is updated
 
   useEffect(() => {
-    const defaultVid = '../src/assets/854917-hd_1920_1080_30fps.mp4';
+    const defaultVid = '../src/assets/clear.mp4';
     setVideoSrc(defaultVid);//sets the video source from the else if
     setVideoKey(Date.now());
   }, []);
