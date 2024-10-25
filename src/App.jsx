@@ -23,7 +23,7 @@ function App() {
       const description = data.weather[0].description.toLowerCase();
       let newVideoSrc = '';
       if (description.includes('clear') || !description || description === undefined) {
-        newVideoSrc =  "/assets/Clear.mp4';
+        newVideoSrc =  "/assets/Clear.mp4"
       } else if (description.includes('clouds')) {
         newVideoSrc = '/assets/clouds.mp4';
       } else if (description.includes('rain')) {
