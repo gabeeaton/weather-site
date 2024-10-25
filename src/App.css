@@ -47,6 +47,11 @@ h3 {
   gap: 10px;
   width: 90%;
 }
+@media(max-width: 360px) {
+  .grid-container{
+    width: 100%;
+  }
+}
 .item2 {
   display: flex;
   flex-direction: column;
@@ -490,6 +495,6 @@ form {
 }
 @media(max-width: 360px) {
   .search-btn{
-    margin-top: 3px;
+    margin-top: 9.5px;
   }
 }
