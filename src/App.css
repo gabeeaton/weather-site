@@ -1,4 +1,7 @@
 
+html, body{
+  background: linear-gradient(135deg, #FFA17F, #00223E);
+}
 h3 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
