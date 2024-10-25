@@ -23,17 +23,17 @@ function App() {
       const description = data.weather[0].description.toLowerCase();
       let newVideoSrc = '';
       if (description.includes('clear') || !description || description === undefined) {
-        newVideoSrc = '../public/assets/Clear.mp4';
+        newVideoSrc =  "/assets/Clear.mp4';
       } else if (description.includes('clouds')) {
-        newVideoSrc = '../public/assets/clouds.mp4';
+        newVideoSrc = '/assets/clouds.mp4';
       } else if (description.includes('rain')) {
-        newVideoSrc = '../public/assets/rain.mp4';
+        newVideoSrc = '/assets/rain.mp4';
       } else if (description.includes('snow')) {
-        newVideoSrc = '../assets/snow.mp4';
+        newVideoSrc = '/assets/snow.mp4';
       } else if (description.includes('thunderstorm')) {
-        newVideoSrc = '../public/assets/thunder.mp4';
+        newVideoSrc = '/assets/thunder.mp4';
       } else {
-        newVideoSrc = '../public/assets/Clear.mp4';
+        newVideoSrc = '/assets/Clear.mp4';
       }
       setVideoSrc(newVideoSrc);//sets the video source from the else if
       setVideoKey(Date.now()); // Update key to force re-render
@@ -41,7 +41,7 @@ function App() {
   }, [data]);//dependency that changes everytime data is updated
 
   useEffect(() => {
-    const defaultVid = '../public/assets/clear.mp4';
+    const defaultVid = '/assets/clear.mp4';
     setVideoSrc(defaultVid);//sets the video source from the else if
     setVideoKey(Date.now());
   }, []);
