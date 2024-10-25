@@ -225,7 +225,7 @@ body {
   color: black;
   border-radius: 7px;
   width: 13%;
-  min-width: 55px;
+  min-width: 62px;
   font-size: 15px;
   z-index: 2;
   border: none;
@@ -484,4 +484,9 @@ form {
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+@media(max-width: 360px) {
+  .search-btn{
+    margin-top: 3px;
+  }
 }
