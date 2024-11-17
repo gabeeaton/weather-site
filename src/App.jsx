@@ -57,7 +57,6 @@ function App() {
     try {
       const response = await fetchWeatherData(search, state);
       setData(response);
-      console.log(response);
 
       const forecastResponse = await fetchForecastData(search, state);
       setForecast(forecastResponse);
