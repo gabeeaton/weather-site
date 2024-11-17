@@ -375,7 +375,7 @@ function App() {
 
         <div>
           {videoSrc && (
-            <video key={videoKey} autoPlay muted loop className="background-video" playsInline>{/*displays video*/}
+            <video key={videoKey} autoPlay muted loop className="background-video" >{/*displays video*/}
               <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
