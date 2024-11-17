@@ -75,7 +75,9 @@ function App() {
     for (let i = 0; i < n; i++) {
       const nextDate = new Date(today);
       nextDate.setDate(today.getDate() + i + 1);
-      days.push(nextDate.toLocaleDateString("en-US", { weekday: "long" }));
+      const isWideScreen = window.innerWidth > 400; // Check if the screen width is greater than 400px
+  const format = isWideScreen ? "long" : "short"; 
+      days.push(nextDate.toLocaleDateString("en-US", { weekday: format }));
     }
     return days;
   };
@@ -375,7 +377,7 @@ function App() {
 
         <div>
           {videoSrc && (
-            <video key={videoKey} autoPlay muted loop className="background-video" >{/*displays video*/}
+            <video key={videoKey} autoPlay muted loop className="background-video" playsInline>{/*displays video*/}
               <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
